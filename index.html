@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DaVinci Resolve Keyboard Shortcuts — Complete Cheat Sheet (Resolve 21)</title>
+  <meta name="description" content="The complete DaVinci Resolve 21 keyboard shortcuts reference. Every default shortcut plus a full guide to unmapped commands you can assign yourself — Mac and Windows." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:         #0d0f14;
+      --surface:    #13161e;
+      --surface2:   #1a1e28;
+      --border:     #252a38;
+      --accent:     #e8512a;
+      --accent2:    #f0832a;
+      --text:       #e4e6ed;
+      --muted:      #6b7280;
+      --key-bg:     #1e2230;
+      --key-shadow: #0a0c11;
+      --ad-bg:      #111318;
+      --ad-border:  #1e2230;
+      --new-bg:     #0f2a0f;
+      --new-text:   #4ade80;
+      --new-border: #1a4a1a;
+      --custom-bg:      #0f1a2e;
+      --custom-text:    #60a5fa;
+      --custom-border:  #1a3060;
+      --custom-surface: #111828;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px; line-height: 1.6; }
+
+    /* ── Layout ── */
+    .page-wrapper { display: grid; grid-template-columns: 160px 1fr 160px; min-height: 100vh; }
+    .ad-rail { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 24px 12px; gap: 16px; background: var(--ad-bg); }
+    .ad-rail.left  { border-right: 1px solid var(--ad-border); grid-column: 1; grid-row: 1 / 4; }
+    .ad-rail.right { border-left:  1px solid var(--ad-border); grid-column: 3; grid-row: 1 / 4; }
+    .ad-slot { width: 136px; background: var(--surface); border: 1px dashed var(--border); border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--muted); font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; text-align: center; padding: 12px 8px; transition: border-color 0.2s; }
+    .ad-slot:hover { border-color: var(--accent); }
+    .ad-slot svg { opacity: 0.3; }
+    .ad-slot.tall { height: 600px; }
+    .ad-slot.short { height: 250px; }
+    .ad-label { font-size: 9px; color: var(--muted); letter-spacing: 0.12em; margin-top: 4px; }
+
+    /* ── Header ── */
+    header { grid-column: 2; background: var(--surface); border-bottom: 1px solid var(--border); padding: 40px 48px 32px; position: relative; overflow: hidden; }
+    header::before { content: ''; position: absolute; top: -60px; right: -60px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(232,81,42,0.12) 0%, transparent 70%); pointer-events: none; }
+    .header-eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+    h1 { font-family: 'Syne', sans-serif; font-size: clamp(28px, 4vw, 48px); font-weight: 800; line-height: 1.05; color: #fff; margin-bottom: 14px; }
+    h1 span { color: var(--accent); }
+    .header-sub { color: var(--muted); max-width: 600px; font-size: 14px; }
+    .version-badges { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+    .badge { padding: 3px 10px; border-radius: 20px; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em; }
+    .badge.stable { background: #1a2a3a; color: #60a5fa; border: 1px solid #1e3a5a; }
+    .badge.new    { background: var(--new-bg); color: var(--new-text); border: 1px solid var(--new-border); }
+    .badge.custom { background: var(--custom-bg); color: var(--custom-text); border: 1px solid var(--custom-border); }
+    .os-toggle { display: flex; margin-top: 20px; background: var(--key-bg); border-radius: 8px; padding: 4px; width: fit-content; border: 1px solid var(--border); }
+    .os-btn { padding: 6px 18px; border-radius: 5px; border: none; background: transparent; color: var(--muted); font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.06em; cursor: pointer; transition: all 0.2s; }
+    .os-btn.active { background: var(--accent); color: #fff; }
+    .search-wrap { position: relative; margin-top: 16px; max-width: 420px; }
+    .search-wrap svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--muted); }
+    #search { width: 100%; padding: 10px 12px 10px 38px; background: var(--key-bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 13px; outline: none; transition: border-color 0.2s; }
+    #search:focus { border-color: var(--accent); }
+    #search::placeholder { color: var(--muted); }
+
+    /* ── Legend ── */
+    .legend { grid-column: 2; display: flex; gap: 20px; padding: 14px 48px; background: var(--surface); border-bottom: 1px solid var(--border); flex-wrap: wrap; align-items: center; }
+    .legend-item { display: flex; align-items: center; gap: 7px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); }
+    .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .legend-dot.orange { background: var(--accent); }
+    .legend-dot.green  { background: var(--new-text); }
+    .legend-dot.blue   { background: var(--custom-text); }
+    .legend-label { font-size: 10px; letter-spacing: 0.06em; }
+
+    /* ── Main ── */
+    main { grid-column: 2; padding: 40px 48px 80px; }
+    .cat-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 36px; }
+    .cat-pill { padding: 5px 14px; background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em; color: var(--muted); cursor: pointer; transition: all 0.18s; text-decoration: none; }
+    .cat-pill:hover, .cat-pill.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .cat-pill.is-new    { border-color: var(--new-border);    color: var(--new-text); }
+    .cat-pill.is-custom { border-color: var(--custom-border); color: var(--custom-text); }
+    .cat-pill.is-new:hover    { background: var(--new-bg);    border-color: var(--new-text); }
+    .cat-pill.is-custom:hover { background: var(--custom-bg); border-color: var(--custom-text); }
+
+    #no-results { display: none; text-align: center; padding: 60px 20px; color: var(--muted); font-family: 'DM Mono', monospace; font-size: 13px; }
+
+    /* ── Sections ── */
+    .section { margin-bottom: 52px; }
+    .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+    .section-icon { width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 15px; }
+    .section-icon.orange { background: var(--accent); }
+    .section-icon.green  { background: #166534; }
+    .section-icon.blue   { background: #1e3a6e; }
+    h2 { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; color: #fff; }
+    .section-count { margin-left: auto; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); background: var(--surface2); padding: 3px 10px; border-radius: 12px; border: 1px solid var(--border); }
+    .section-tag { font-family: 'DM Mono', monospace; font-size: 10px; padding: 2px 8px; border-radius: 10px; letter-spacing: 0.06em; }
+    .section-tag.new    { color: var(--new-text);    background: var(--new-bg);    border: 1px solid var(--new-border); }
+    .section-tag.custom { color: var(--custom-text); background: var(--custom-bg); border: 1px solid var(--custom-border); }
+
+    /* ── How-to box for custom sections ── */
+    .custom-how-to { background: var(--custom-surface); border: 1px solid var(--custom-border); border-radius: 8px; padding: 14px 18px; margin-bottom: 16px; display: flex; gap: 12px; align-items: flex-start; }
+    .custom-how-to svg { flex-shrink: 0; margin-top: 2px; color: var(--custom-text); }
+    .custom-how-to p { font-size: 12px; color: var(--muted); line-height: 1.6; }
+    .custom-how-to strong { color: var(--custom-text); }
+
+    /* ── Grid ── */
+    .shortcuts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 6px; }
+
+    /* Default row */
+    .shortcut-row { display: flex; align-items: center; justify-content: space-between; padding: 9px 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 7px; gap: 10px; transition: border-color 0.15s, background 0.15s; }
+    .shortcut-row:hover { border-color: var(--accent); background: var(--surface2); }
+
+    /* New row */
+    .shortcut-row.is-new { border-color: var(--new-border); }
+    .shortcut-row.is-new:hover { border-color: var(--new-text); }
+
+    /* Unmapped / custom row */
+    .shortcut-row.is-custom { border: 1px dashed var(--custom-border); background: var(--custom-surface); }
+    .shortcut-row.is-custom:hover { border-color: var(--custom-text); background: #131f38; }
+
+    .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .dot.green  { background: var(--new-text); }
+    .dot.blue   { background: var(--custom-text); }
+
+    .shortcut-label { font-size: 13px; color: var(--text); flex: 1; }
+    .keys { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+    kbd { display: inline-flex; align-items: center; justify-content: center; min-width: 26px; padding: 3px 7px; background: var(--key-bg); border: 1px solid #333a4d; border-bottom: 2px solid var(--key-shadow); border-radius: 5px; font-family: 'DM Mono', monospace; font-size: 11px; color: #c8cdd8; white-space: nowrap; line-height: 1.4; }
+    .key-sep { color: var(--muted); font-size: 10px; font-family: 'DM Mono', monospace; }
+    .unassigned-badge { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--custom-text); background: var(--custom-bg); border: 1px solid var(--custom-border); padding: 2px 8px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; }
+    .suggested { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+    .suggested-label { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
+    .suggested kbd { background: #0f1a2e; border-color: var(--custom-border); color: var(--custom-text); border-bottom-color: #0a0f1e; opacity: 0.85; }
+
+    footer { grid-column: 2; border-top: 1px solid var(--border); padding: 24px 48px; display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 12px; font-family: 'DM Mono', monospace; }
+    footer a { color: var(--accent); text-decoration: none; }
+    mark { background: rgba(232,81,42,0.25); color: var(--accent2); border-radius: 2px; padding: 0 1px; }
+
+    @media (max-width: 900px) {
+      .page-wrapper { grid-template-columns: 1fr; }
+      .ad-rail { display: none; }
+      header, .legend, main, footer { grid-column: 1; }
+      header { padding: 28px 20px 24px; }
+      .legend { padding: 14px 20px; }
+      main { padding: 28px 20px 60px; }
+      footer { padding: 20px; flex-direction: column; gap: 8px; text-align: center; }
+      .shortcuts-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="page-wrapper">
+
+  <!-- LEFT AD -->
+  <aside class="ad-rail left" aria-label="Advertisement">
+    <div class="ad-slot tall"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg><div>Ad Unit</div><div class="ad-label">160 × 600</div></div>
+    <div class="ad-slot short"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg><div>Ad Unit</div><div class="ad-label">160 × 250</div></div>
+  </aside>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-eyebrow">Complete Reference · Verified &amp; Updated 2026</div>
+    <h1>DaVinci Resolve<br><span>Keyboard Shortcuts</span></h1>
+    <p class="header-sub">Every default shortcut for every page — plus a full section of unmapped commands you can assign yourself to supercharge your workflow. Mac &amp; Windows.</p>
+    <div class="version-badges">
+      <span class="badge stable">✓ Resolve 18 · 19 · 20</span>
+      <span class="badge new">★ Resolve 21 — Photos Page</span>
+      <span class="badge custom">⌨ Unmapped — Map It Yourself</span>
+    </div>
+    <div class="os-toggle" role="group">
+      <button class="os-btn active" id="btn-mac" onclick="setOS('mac')">⌘ Mac</button>
+      <button class="os-btn" id="btn-win" onclick="setOS('win')">⊞ Windows</button>
+    </div>
+    <div class="search-wrap">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="search" placeholder="Search all shortcuts and commands…" autocomplete="off" />
+    </div>
+  </header>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot orange"></div><span class="legend-label">Default assigned shortcut</span></div>
+    <div class="legend-item"><div class="legend-dot green"></div><span class="legend-label">New in Resolve 21</span></div>
+    <div class="legend-item"><div class="legend-dot blue"></div><span class="legend-label">Unmapped — assign it yourself</span></div>
+  </div>
+
+  <!-- MAIN -->
+  <main id="main-content">
+    <nav class="cat-nav">
+      <a class="cat-pill active" href="#global">Global</a>
+      <a class="cat-pill" href="#cut-page">Cut Page</a>
+      <a class="cat-pill" href="#edit-page">Edit Page</a>
+      <a class="cat-pill is-custom" href="#edit-custom">⌨ Edit Unmapped</a>
+      <a class="cat-pill" href="#trim">Trimming</a>
+      <a class="cat-pill" href="#timeline">Timeline</a>
+      <a class="cat-pill" href="#playback">Playback</a>
+      <a class="cat-pill" href="#markers">Markers</a>
+      <a class="cat-pill" href="#color">Color Page</a>
+      <a class="cat-pill is-custom" href="#color-custom">⌨ Color Unmapped</a>
+      <a class="cat-pill" href="#fusion">Fusion</a>
+      <a class="cat-pill is-custom" href="#fusion-custom">⌨ Fusion Unmapped</a>
+      <a class="cat-pill" href="#fairlight">Fairlight</a>
+      <a class="cat-pill is-custom" href="#fairlight-custom">⌨ Fairlight Unmapped</a>
+      <a class="cat-pill" href="#media">Media Pool</a>
+      <a class="cat-pill is-custom" href="#global-custom">⌨ Global Unmapped</a>
+      <a class="cat-pill is-new" href="#photos">★ Photos (R21)</a>
+    </nav>
+
+    <div id="no-results">No shortcuts found. Try a different search term.</div>
+
+    <!-- ═══════════════════════ GLOBAL ═══════════════════════ -->
+    <section class="section" id="global" data-section="Global">
+      <div class="section-header"><div class="section-icon orange">🌐</div><h2>Global</h2><span class="section-count">15 shortcuts</span></div>
+      <div class="shortcuts-grid">
+        <div class="shortcut-row"><span class="shortcut-label">Undo</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>Z</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>Z</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Redo</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>⇧</kbd><span class="key-sep">+</span><kbd>Z</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>Y</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Save Project</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>S</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>S</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Import Media</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>I</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>I</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Keyboard Customization</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>⌥</kbd><span class="key-sep">+</span><kbd>K</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>Alt</kbd><span class="key-sep">+</span><kbd>K</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Preferences</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>,</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>,</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Switch to Cut Page</span><span class="keys mac-key"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>3</kbd></span><span class="keys win-key" style="display:none"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>3</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Switch to Edit Page</span><span class="keys mac-key"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>4</kbd></span><span class="keys win-key" style="display:none"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>4</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Switch to Fusion Page</span><span class="keys mac-key"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>5</kbd></span><span class="keys win-key" style="display:none"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>5</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Switch to Color Page</span><span class="keys mac-key"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>6</kbd></span><span class="keys win-key" style="display:none"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>6</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Switch to Fairlight Page</span><span class="keys mac-key"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>7</kbd></span><span class="keys win-key" style="display:none"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>7</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Switch to Deliver Page</span><span class="keys mac-key"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>8</kbd></span><span class="keys win-key" style="display:none"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>8</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Full Screen Viewer</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>F</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>F</kbd></span></div>
+        <div class="shortcut-row is-new"><span class="dot green"></span><span class="shortcut-label">Zoom to Full Extent (v20.1)</span><span class="keys mac-key"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>Z</kbd></span><span class="keys win-key" style="display:none"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>Z</kbd></span></div>
+        <div class="shortcut-row is-new"><span class="dot green"></span><span class="shortcut-label">Detail Zoom (v20.1)</span><span class="keys mac-key"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>X</kbd></span><span class="keys win-key" style="display:none"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>X</kbd></span></div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════ CUT PAGE ═══════════════════════ -->
+    <section class="section" id="cut-page" data-section="Cut Page">
+      <div class="section-header"><div class="section-icon orange">✂️</div><h2>Cut Page</h2><span class="section-count">11 shortcuts</span></div>
+      <div class="shortcuts-grid">
+        <div class="shortcut-row"><span class="shortcut-label">Smart Insert</span><span class="keys mac-key"><kbd>F9</kbd></span><span class="keys win-key" style="display:none"><kbd>F9</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Append to End of Timeline</span><span class="keys mac-key"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>F12</kbd></span><span class="keys win-key" style="display:none"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>F12</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Ripple Delete</span><span class="keys mac-key"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>⌫</kbd></span><span class="keys win-key" style="display:none"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>Del</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Cut Source Clip</span><span class="keys mac-key"><kbd>Q</kbd></span><span class="keys win-key" style="display:none"><kbd>Q</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Select Clip Under Playhead</span><span class="keys mac-key"><kbd>V</kbd></span><span class="keys win-key" style="display:none"><kbd>V</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Toggle Source / Timeline View</span><span class="keys mac-key"><kbd>P</kbd></span><span class="keys win-key" style="display:none"><kbd>P</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Fast Review</span><span class="keys mac-key"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>Space</kbd></span><span class="keys win-key" style="display:none"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>Space</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Add Audio-Only to Timeline</span><span class="keys mac-key"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>F9</kbd></span><span class="keys win-key" style="display:none"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>F9</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Split Clip</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>B</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>B</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Mark Clip (Set In+Out to clip)</span><span class="keys mac-key"><kbd>X</kbd></span><span class="keys win-key" style="display:none"><kbd>X</kbd></span></div>
+        <div class="shortcut-row is-new"><span class="dot green"></span><span class="shortcut-label">Go to Mouse Pointer (v20.1)</span><span class="keys mac-key"><kbd>C</kbd></span><span class="keys win-key" style="display:none"><kbd>C</kbd></span></div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════ EDIT PAGE ═══════════════════════ -->
+    <section class="section" id="edit-page" data-section="Edit Page">
+      <div class="section-header"><div class="section-icon orange">🎬</div><h2>Edit Page</h2><span class="section-count">18 shortcuts</span></div>
+      <div class="shortcuts-grid">
+        <div class="shortcut-row"><span class="shortcut-label">Insert Edit</span><span class="keys mac-key"><kbd>F9</kbd></span><span class="keys win-key" style="display:none"><kbd>F9</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Overwrite Edit</span><span class="keys mac-key"><kbd>F10</kbd></span><span class="keys win-key" style="display:none"><kbd>F10</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Replace Edit</span><span class="keys mac-key"><kbd>F11</kbd></span><span class="keys win-key" style="display:none"><kbd>F11</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Fit to Fill Edit</span><span class="keys mac-key"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>F11</kbd></span><span class="keys win-key" style="display:none"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>F11</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Append to Timeline</span><span class="keys mac-key"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>F12</kbd></span><span class="keys win-key" style="display:none"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>F12</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Blade / Split Clip</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>B</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>B</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Ripple Delete</span><span class="keys mac-key"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>⌫</kbd></span><span class="keys win-key" style="display:none"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>Del</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Delete Selected Clips</span><span class="keys mac-key"><kbd>⌫</kbd></span><span class="keys win-key" style="display:none"><kbd>Del</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Lift</span><span class="keys mac-key"><kbd>;</kbd></span><span class="keys win-key" style="display:none"><kbd>;</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Extract</span><span class="keys mac-key"><kbd>'</kbd></span><span class="keys win-key" style="display:none"><kbd>'</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Select Clip at Playhead</span><span class="keys mac-key"><kbd>V</kbd></span><span class="keys win-key" style="display:none"><kbd>V</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Select All Clips</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>A</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>A</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Select All Clips After Playhead</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>Y</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>Y</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Link / Unlink Audio &amp; Video</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>⌥</kbd><span class="key-sep">+</span><kbd>L</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>Alt</kbd><span class="key-sep">+</span><kbd>L</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Nudge Clip Left 1 Frame</span><span class="keys mac-key"><kbd>,</kbd></span><span class="keys win-key" style="display:none"><kbd>,</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Nudge Clip Right 1 Frame</span><span class="keys mac-key"><kbd>.</kbd></span><span class="keys win-key" style="display:none"><kbd>.</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Toggle Clip Enable / Disable</span><span class="keys mac-key"><kbd>D</kbd></span><span class="keys win-key" style="display:none"><kbd>D</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Snap Toggle</span><span class="keys mac-key"><kbd>N</kbd></span><span class="keys win-key" style="display:none"><kbd>N</kbd></span></div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════ EDIT — UNMAPPED ═══════════════════════ -->
+    <section class="section" id="edit-custom" data-section="Edit Page Unmapped">
+      <div class="section-header"><div class="section-icon blue">⌨</div><h2>Edit Page — Map It Yourself</h2><span class="section-tag custom">Unassigned by Default</span><span class="section-count">8 commands</span></div>
+      <div class="custom-how-to">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+        <p>These commands exist in Resolve but have <strong>no default key assigned</strong>. To map one: open <strong>Keyboard Customization (⌘+⌥+K / Ctrl+Alt+K)</strong>, search by command name, click the empty field, press your chosen key, then save as a preset. The suggested keys below are community favorites — always check for conflicts first.</p>
+      </div>
+      <div class="shortcuts-grid">
+        <div class="shortcut-row is-custom"><span class="dot blue"></span><span class="shortcut-label">Delete Gaps</span><div class="suggested"><span class="suggested-label mac-key">suggest</span><span class="suggested-label win-key" style="display:none">suggest</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>G</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>G</kbd></span></div></div>
+        <div class="shortcut-row is-custom"><span class="dot blue"></span><span class="shortcut-label">New Compound Clip</span><div class="suggested"><span class="suggested-label mac-key">suggest</span><span class="suggested-label win-key" style="display:none">suggest</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>C</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>C</kbd></span></div></div>
+        <div class="shortcut-row is-custom"><span class="dot blue"></span><span class="shortcut-label">Render in Place</span><div class="suggested"><span class="suggested-label mac-key">suggest</span><span class="suggested-label win-key" style="display:none">suggest</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>⌥</kbd><span class="key-sep">+</span><kbd>R</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>Alt</kbd><span class="key-sep">+</span><kbd>R</kbd></span></div></div>
+        <div class="shortcut-row is-custom"><span class="dot blue"></span><span class="shortcut-label">Change Clip Speed (Retime)</span><div class="suggested"><span class="suggested-label mac-key">suggest</span><span class="suggested-label win-key" style="display:none">suggest</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>R</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>R</kbd></span></div></div>
+        <div class="shortcut-row is-custom"><span class="dot blue"></span><span class="shortcut-label">Swap Clip Towards Left</span><div class="suggested"><span class="suggested-label mac-key">suggest</span><span class="suggested-label win-key" style="display:none">suggest</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>⇧</kbd><span class="key-sep">+</span><kbd>,</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>⇧</kbd><span class="key-sep">+</span><kbd>,</kbd></span></div></div>
+        <div class="shortcut-row is-custom"><span class="dot blue"></span><span class="shortcut-label">Swap Clip Towards Right</span><div class="suggested"><span class="suggested-label mac-key">suggest</span><span class="suggested-label win-key" style="display:none">suggest</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>⇧</kbd><span class="key-sep">+</span><kbd>.</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>⇧</kbd><span class="key-sep">+</span><kbd>.</kbd></span></div></div>
+        <div class="shortcut-row is-custom"><span class="dot blue"></span><span class="shortcut-label">Create Adjustment Clip</span><div class="suggested"><span class="suggested-label mac-key">suggest</span><span class="suggested-label win-key" style="display:none">suggest</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>A</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>A</kbd></span></div></div>
+        <div class="shortcut-row is-custom"><span class="dot blue"></span><span class="shortcut-label">New Fusion Clip</span><div class="suggested"><span class="suggested-label mac-key">suggest</span><span class="suggested-label win-key" style="display:none">suggest</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>F</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>F</kbd></span></div></div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════ TRIMMING ═══════════════════════ -->
+    <section class="section" id="trim" data-section="Trimming">
+      <div class="section-header"><div class="section-icon orange">🔪</div><h2>Trimming</h2><span class="section-count">11 shortcuts</span></div>
+      <div class="shortcuts-grid">
+        <div class="shortcut-row"><span class="shortcut-label">Trim Mode</span><span class="keys mac-key"><kbd>T</kbd></span><span class="keys win-key" style="display:none"><kbd>T</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Dynamic Trim Mode</span><span class="keys mac-key"><kbd>W</kbd></span><span class="keys win-key" style="display:none"><kbd>W</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Ripple Trim Start to Playhead</span><span class="keys mac-key"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>[</kbd></span><span class="keys win-key" style="display:none"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>[</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Ripple Trim End to Playhead</span><span class="keys mac-key"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>]</kbd></span><span class="keys win-key" style="display:none"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>]</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Extend Edit to Playhead</span><span class="keys mac-key"><kbd>E</kbd></span><span class="keys win-key" style="display:none"><kbd>E</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Trim Start of Clip</span><span class="keys mac-key"><kbd>[</kbd></span><span class="keys win-key" style="display:none"><kbd>[</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Trim End of Clip</span><span class="keys mac-key"><kbd>]</kbd></span><span class="keys win-key" style="display:none"><kbd>]</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Slip Clip Left</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>,</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>,</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Slip Clip Right</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>.</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>.</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Slide Clip Left</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>⇧</kbd><span class="key-sep">+</span><kbd>,</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>⇧</kbd><span class="key-sep">+</span><kbd>,</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Slide Clip Right</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>⇧</kbd><span class="key-sep">+</span><kbd>.</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>⇧</kbd><span class="key-sep">+</span><kbd>.</kbd></span></div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════ TIMELINE ═══════════════════════ -->
+    <section class="section" id="timeline" data-section="Timeline">
+      <div class="section-header"><div class="section-icon orange">📋</div><h2>Timeline Navigation</h2><span class="section-count">14 shortcuts</span></div>
+      <div class="shortcuts-grid">
+        <div class="shortcut-row"><span class="shortcut-label">Go to Start of Timeline</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>←</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>Home</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Go to End of Timeline</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>→</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>End</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Go to Previous Edit Point</span><span class="keys mac-key"><kbd>↑</kbd></span><span class="keys win-key" style="display:none"><kbd>↑</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Go to Next Edit Point</span><span class="keys mac-key"><kbd>↓</kbd></span><span class="keys win-key" style="display:none"><kbd>↓</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Zoom In Timeline</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>=</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>=</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Zoom Out Timeline</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>-</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>-</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Set In Point</span><span class="keys mac-key"><kbd>I</kbd></span><span class="keys win-key" style="display:none"><kbd>I</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Set Out Point</span><span class="keys mac-key"><kbd>O</kbd></span><span class="keys win-key" style="display:none"><kbd>O</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Clear In Point</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>I</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>I</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Clear Out Point</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>O</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>O</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Clear In and Out Points</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>X</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>X</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Go to In Point</span><span class="keys mac-key"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>I</kbd></span><span class="keys win-key" style="display:none"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>I</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Go to Out Point</span><span class="keys mac-key"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>O</kbd></span><span class="keys win-key" style="display:none"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>O</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Mark Clip (In+Out to clip)</span><span class="keys mac-key"><kbd>X</kbd></span><span class="keys win-key" style="display:none"><kbd>X</kbd></span></div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════ PLAYBACK ═══════════════════════ -->
+    <section class="section" id="playback" data-section="Playback">
+      <div class="section-header"><div class="section-icon orange">▶️</div><h2>Playback</h2><span class="section-count">11 shortcuts</span></div>
+      <div class="shortcuts-grid">
+        <div class="shortcut-row"><span class="shortcut-label">Play / Pause</span><span class="keys mac-key"><kbd>Space</kbd></span><span class="keys win-key" style="display:none"><kbd>Space</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Play Reverse — JKL</span><span class="keys mac-key"><kbd>J</kbd></span><span class="keys win-key" style="display:none"><kbd>J</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Stop — JKL</span><span class="keys mac-key"><kbd>K</kbd></span><span class="keys win-key" style="display:none"><kbd>K</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Play Forward — JKL</span><span class="keys mac-key"><kbd>L</kbd></span><span class="keys win-key" style="display:none"><kbd>L</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Step Back 1 Frame</span><span class="keys mac-key"><kbd>←</kbd></span><span class="keys win-key" style="display:none"><kbd>←</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Step Forward 1 Frame</span><span class="keys mac-key"><kbd>→</kbd></span><span class="keys win-key" style="display:none"><kbd>→</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Step Back 1 Second</span><span class="keys mac-key"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>←</kbd></span><span class="keys win-key" style="display:none"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>←</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Step Forward 1 Second</span><span class="keys mac-key"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>→</kbd></span><span class="keys win-key" style="display:none"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>→</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Loop Playback</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>/</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>/</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Play In to Out</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>Space</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>Space</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Full Screen Viewer</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>F</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>F</kbd></span></div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════ MARKERS ═══════════════════════ -->
+    <section class="section" id="markers" data-section="Markers">
+      <div class="section-header"><div class="section-icon orange">📌</div><h2>Markers &amp; Flags</h2><span class="section-count">8 shortcuts</span></div>
+      <div class="shortcuts-grid">
+        <div class="shortcut-row"><span class="shortcut-label">Add Marker</span><span class="keys mac-key"><kbd>M</kbd></span><span class="keys win-key" style="display:none"><kbd>M</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Modify Marker</span><span class="keys mac-key"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>M</kbd></span><span class="keys win-key" style="display:none"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>M</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Delete Marker</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>M</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>M</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Go to Previous Marker</span><span class="keys mac-key"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>↑</kbd></span><span class="keys win-key" style="display:none"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>↑</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Go to Next Marker</span><span class="keys mac-key"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>↓</kbd></span><span class="keys win-key" style="display:none"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>↓</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Add Flag to Clip</span><span class="keys mac-key"><kbd>G</kbd></span><span class="keys win-key" style="display:none"><kbd>G</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Add Chapter Marker</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>⇧</kbd><span class="key-sep">+</span><kbd>M</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>⇧</kbd><span class="key-sep">+</span><kbd>M</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Add Marker at Subframe</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>⇧</kbd><span class="key-sep">+</span><kbd>M</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>⇧</kbd><span class="key-sep">+</span><kbd>M</kbd></span></div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════ COLOR PAGE ═══════════════════════ -->
+    <section class="section" id="color" data-section="Color Page">
+      <div class="section-header"><div class="section-icon orange">🎨</div><h2>Color Page</h2><span class="section-count">14 shortcuts</span></div>
+      <div class="shortcuts-grid">
+        <div class="shortcut-row"><span class="shortcut-label">Add Serial Node</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>S</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>S</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Add Parallel Node</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>P</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>P</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Add Layer Node</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>L</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>L</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Copy Grade Forward</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>]</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>]</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Copy Grade Backward</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>[</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>[</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Toggle Highlight</span><span class="keys mac-key"><kbd>H</kbd></span><span class="keys win-key" style="display:none"><kbd>H</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Toggle Bypass Grade</span><span class="keys mac-key"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>D</kbd></span><span class="keys win-key" style="display:none"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>D</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Grab Still</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>⌥</kbd><span class="key-sep">+</span><kbd>G</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>Alt</kbd><span class="key-sep">+</span><kbd>G</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Toggle Wipe / Split Screen</span><span class="keys mac-key"><kbd>W</kbd></span><span class="keys win-key" style="display:none"><kbd>W</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Apply Last Grade</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>V</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>V</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Reset Current Node Grade</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>Home</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>Home</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Flag Clip</span><span class="keys mac-key"><kbd>G</kbd></span><span class="keys win-key" style="display:none"><kbd>G</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Previous Clip</span><span class="keys mac-key"><kbd>←</kbd></span><span class="keys win-key" style="display:none"><kbd>←</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Next Clip</span><span class="keys mac-key"><kbd>→</kbd></span><span class="keys win-key" style="display:none"><kbd>→</kbd></span></div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════ COLOR — UNMAPPED ═══════════════════════ -->
+    <section class="section" id="color-custom" data-section="Color Page Unmapped">
+      <div class="section-header"><div class="section-icon blue">⌨</div><h2>Color Page — Map It Yourself</h2><span class="section-tag custom">Unassigned by Default</span><span class="section-count">7 commands</span></div>
+      <div class="custom-how-to">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+        <p>The Color page has dozens of panel toggles, AI tools, and grading actions with <strong>no default key</strong>. These are the ones professional colorists most commonly bind. Open <strong>Keyboard Customization (⌘+⌥+K)</strong>, filter by "Unassigned" to see the full list.</p>
+      </div>
+      <div class="shortcuts-grid">
+        <div class="shortcut-row is-custom"><span class="dot blue"></span><span class="shortcut-label">Auto Color (Magic Color)</span><div class="suggested"><span class="suggested-label mac-key">suggest</span><span class="suggested-label win-key" style="display:none">suggest</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>C</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>C</kbd></span></div></div>
+        <div class="shortcut-row is-custom"><span class="dot blue"></span><span class="shortcut-label">Magic Mask</span><div class="suggested"><span class="suggested-label mac-key">suggest</span><span class="suggested-label win-key" style="display:none">suggest</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>⇧</kbd><span class="key-sep">+</span><kbd>M</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>⇧</kbd><span class="key-sep">+</span><kbd>M</kbd></span></div></div>
+        <div class="shortcut-row is-custom"><span class="dot blue"></span><span class="shortcut-label">Reset All Grades on Clip</span><div class="suggested"><span class="suggested-label mac-key">suggest</span><span class="suggested-label win-key" style="display:none">suggest</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>⌥</kbd><span class="key-sep">+</span><kbd>Home</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>Alt</kbd><span class="key-sep">+</span><kbd>Home</kbd></span></div></div>
+        <div class="shortcut-row is-custom"><span class="dot blue"></span><span class="shortcut-label">Add Splitter Node</span><div class="suggested"><span class="suggested-label mac-key">suggest</span><span class="suggested-label win-key" style="display:none">suggest</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>T</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>T</kbd></span></div></div>
+        <div class="shortcut-row is-custom"><span class="dot blue"></span><span class="shortcut-label">Show Color Warper Panel</span><div class="suggested"><span class="suggested-label mac-key">suggest</span><span class="suggested-label win-key" style="display:none">suggest</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>W</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>W</kbd></span></div></div>
+        <div class="shortcut-row is-custom"><span class="dot blue"></span><span class="shortcut-label">Enable / Disable Selected Node</span><div class="suggested"><span class="suggested-label mac-key">suggest</span><span class="suggested-label win-key" style="display:none">suggest</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>D</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>D</kbd></span></div></div>
+        <div class="shortcut-row is-custom"><span class="dot blue"></span><span class="shortcut-label">Track Grade (apply to all)</span><div class="suggested"><span class="suggested-label mac-key">suggest</span><span class="suggested-label win-key" style="display:none">suggest</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>⇧</kbd><span class="key-sep">+</span><kbd>V</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>⇧</kbd><span class="key-sep">+</span><kbd>V</kbd></span></div></div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════ FUSION ═══════════════════════ -->
+    <section class="section" id="fusion" data-section="Fusion">
+      <div class="section-header"><div class="section-icon orange">🔮</div><h2>Fusion Page</h2><span class="section-count">10 shortcuts</span></div>
+      <div class="shortcuts-grid">
+        <div class="shortcut-row"><span class="shortcut-label">Add Tool (search popup)</span><span class="keys mac-key"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>Space</kbd></span><span class="keys win-key" style="display:none"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>Space</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Render (Fusion)</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>R</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>R</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Delete Node</span><span class="keys mac-key"><kbd>⌫</kbd></span><span class="keys win-key" style="display:none"><kbd>Del</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Fit Node Graph to View</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>F</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>F</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">View Node on Left Viewer</span><span class="keys mac-key"><kbd>1</kbd></span><span class="keys win-key" style="display:none"><kbd>1</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">View Node on Right Viewer</span><span class="keys mac-key"><kbd>2</kbd></span><span class="keys win-key" style="display:none"><kbd>2</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Copy Node</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>C</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>C</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Paste Node</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>V</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>V</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Select All Nodes</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>A</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>A</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Toggle Show All / Selected</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>L</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>L</kbd></span></div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════ FUSION — UNMAPPED ═══════════════════════ -->
+    <section class="section" id="fusion-custom" data-section="Fusion Unmapped">
+      <div class="section-header"><div class="section-icon blue">⌨</div><h2>Fusion Page — Map It Yourself</h2><span class="section-tag custom">Unassigned by Default</span><span class="section-count">6 commands</span></div>
+      <div class="custom-how-to">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+        <p>Almost all individual Fusion node types have <strong>no dedicated shortcut</strong> — you always go through the Shift+Space search popup. The commands below let you skip that popup for your most-used nodes. The suggested keys use Shift+ prefixes to avoid collisions with Fusion's existing single-key bindings.</p>
+      </div>
+      <div class="shortcuts-grid">
+        <div class="shortcut-row is-custom"><span class="dot blue"></span><span class="shortcut-label">Add Merge Node directly</span><div class="suggested"><span class="suggested-label mac-key">suggest</span><span class="suggested-label win-key" style="display:none">suggest</span><span class="keys mac-key"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>M</kbd></span><span class="keys win-key" style="display:none"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>M</kbd></span></div></div>
+        <div class="shortcut-row is-custom"><span class="dot blue"></span><span class="shortcut-label">Add Transform Node directly</span><div class="suggested"><span class="suggested-label mac-key">suggest</span><span class="suggested-label win-key" style="display:none">suggest</span><span class="keys mac-key"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>T</kbd></span><span class="keys win-key" style="display:none"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>T</kbd></span></div></div>
+        <div class="shortcut-row is-custom"><span class="dot blue"></span><span class="shortcut-label">Add Background Node directly</span><div class="suggested"><span class="suggested-label mac-key">suggest</span><span class="suggested-label win-key" style="display:none">suggest</span><span class="keys mac-key"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>B</kbd></span><span class="keys win-key" style="display:none"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>B</kbd></span></div></div>
+        <div class="shortcut-row is-custom"><span class="dot blue"></span><span class="shortcut-label">Add Text+ Node directly</span><div class="suggested"><span class="suggested-label mac-key">suggest</span><span class="suggested-label win-key" style="display:none">suggest</span><span class="keys mac-key"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>N</kbd></span><span class="keys win-key" style="display:none"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>N</kbd></span></div></div>
+        <div class="shortcut-row is-custom"><span class="dot blue"></span><span class="shortcut-label">Enable / Disable Selected Node</span><div class="suggested"><span class="suggested-label mac-key">suggest</span><span class="suggested-label win-key" style="display:none">suggest</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>D</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>D</kbd></span></div></div>
+        <div class="shortcut-row is-custom"><span class="dot blue"></span><span class="shortcut-label">Quick Export (Fusion macro)</span><div class="suggested"><span class="suggested-label mac-key">suggest</span><span class="suggested-label win-key" style="display:none">suggest</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>⌥</kbd><span class="key-sep">+</span><kbd>E</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>Alt</kbd><span class="key-sep">+</span><kbd>E</kbd></span></div></div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════ FAIRLIGHT ═══════════════════════ -->
+    <section class="section" id="fairlight" data-section="Fairlight">
+      <div class="section-header"><div class="section-icon orange">🎵</div><h2>Fairlight Page</h2><span class="section-count">10 shortcuts</span></div>
+      <div class="shortcuts-grid">
+        <div class="shortcut-row"><span class="shortcut-label">Record</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>R</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>R</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Solo Track</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>S</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>S</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Mute Track</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>M</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>M</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Split Clip</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>B</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>B</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Normalize Audio</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>N</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>N</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Toggle Automation Write</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>A</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>A</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Zoom In Waveform</span><span class="keys mac-key"><kbd>=</kbd></span><span class="keys win-key" style="display:none"><kbd>=</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Zoom Out Waveform</span><span class="keys mac-key"><kbd>-</kbd></span><span class="keys win-key" style="display:none"><kbd>-</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Add Crossfade</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>T</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>T</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Bounce Mix to Track</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>⌥</kbd><span class="key-sep">+</span><kbd>B</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>Alt</kbd><span class="key-sep">+</span><kbd>B</kbd></span></div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════ FAIRLIGHT — UNMAPPED ═══════════════════════ -->
+    <section class="section" id="fairlight-custom" data-section="Fairlight Unmapped">
+      <div class="section-header"><div class="section-icon blue">⌨</div><h2>Fairlight Page — Map It Yourself</h2><span class="section-tag custom">Unassigned by Default</span><span class="section-count">6 commands</span></div>
+      <div class="custom-how-to">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+        <p>Fairlight has some of the largest gaps in Resolve's default shortcut coverage. Most <strong>panel toggles, EQ, and AI audio tools have no hotkey at all</strong>. If you spend serious time in Fairlight these are worth binding immediately.</p>
+      </div>
+      <div class="shortcuts-grid">
+        <div class="shortcut-row is-custom"><span class="dot blue"></span><span class="shortcut-label">Voice Isolation (AI)</span><div class="suggested"><span class="suggested-label mac-key">suggest</span><span class="suggested-label win-key" style="display:none">suggest</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>V</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>V</kbd></span></div></div>
+        <div class="shortcut-row is-custom"><span class="dot blue"></span><span class="shortcut-label">Show / Hide EQ Panel</span><div class="suggested"><span class="suggested-label mac-key">suggest</span><span class="suggested-label win-key" style="display:none">suggest</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>E</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>E</kbd></span></div></div>
+        <div class="shortcut-row is-custom"><span class="dot blue"></span><span class="shortcut-label">Show / Hide Dynamics Panel</span><div class="suggested"><span class="suggested-label mac-key">suggest</span><span class="suggested-label win-key" style="display:none">suggest</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>Y</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>Y</kbd></span></div></div>
+        <div class="shortcut-row is-custom"><span class="dot blue"></span><span class="shortcut-label">Clip Attributes</span><div class="suggested"><span class="suggested-label mac-key">suggest</span><span class="suggested-label win-key" style="display:none">suggest</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>⏎</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>Enter</kbd></span></div></div>
+        <div class="shortcut-row is-custom"><span class="dot blue"></span><span class="shortcut-label">Add Bus Send</span><div class="suggested"><span class="suggested-label mac-key">suggest</span><span class="suggested-label win-key" style="display:none">suggest</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>B</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>B</kbd></span></div></div>
+        <div class="shortcut-row is-custom"><span class="dot blue"></span><span class="shortcut-label">AI Voice Convert (Resolve 20)</span><div class="suggested"><span class="suggested-label mac-key">suggest</span><span class="suggested-label win-key" style="display:none">suggest</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>⌥</kbd><span class="key-sep">+</span><kbd>V</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>Alt</kbd><span class="key-sep">+</span><kbd>V</kbd></span></div></div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════ MEDIA POOL ═══════════════════════ -->
+    <section class="section" id="media" data-section="Media Pool">
+      <div class="section-header"><div class="section-icon orange">🗂️</div><h2>Media Pool</h2><span class="section-count">8 shortcuts</span></div>
+      <div class="shortcuts-grid">
+        <div class="shortcut-row"><span class="shortcut-label">Import Media</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>I</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>I</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">New Bin</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>⇧</kbd><span class="key-sep">+</span><kbd>N</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>⇧</kbd><span class="key-sep">+</span><kbd>N</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">New Timeline</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>N</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>N</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Delete Selected Clips</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>⌫</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>Del</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Reveal in Finder / Explorer</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>R</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>R</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Rename Clip</span><span class="keys mac-key"><kbd>↩</kbd></span><span class="keys win-key" style="display:none"><kbd>F2</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Play Selected Clip</span><span class="keys mac-key"><kbd>Space</kbd></span><span class="keys win-key" style="display:none"><kbd>Space</kbd></span></div>
+        <div class="shortcut-row"><span class="shortcut-label">Select All</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>A</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>A</kbd></span></div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════ GLOBAL — UNMAPPED ═══════════════════════ -->
+    <section class="section" id="global-custom" data-section="Global Unmapped">
+      <div class="section-header"><div class="section-icon blue">⌨</div><h2>Global — Map It Yourself</h2><span class="section-tag custom">Unassigned by Default</span><span class="section-count">6 commands</span></div>
+      <div class="custom-how-to">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+        <p>These app-wide actions work on any page but ship with <strong>no default shortcut</strong>. They're the ones users most frequently wish were bound. Suggested keys avoid known global conflicts — but always verify in <strong>Keyboard Customization</strong> before saving.</p>
+      </div>
+      <div class="shortcuts-grid">
+        <div class="shortcut-row is-custom"><span class="dot blue"></span><span class="shortcut-label">Scene Cut Detection</span><div class="suggested"><span class="suggested-label mac-key">suggest</span><span class="suggested-label win-key" style="display:none">suggest</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>⌥</kbd><span class="key-sep">+</span><kbd>D</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>Alt</kbd><span class="key-sep">+</span><kbd>D</kbd></span></div></div>
+        <div class="shortcut-row is-custom"><span class="dot blue"></span><span class="shortcut-label">Transcribe Clip (AI)</span><div class="suggested"><span class="suggested-label mac-key">suggest</span><span class="suggested-label win-key" style="display:none">suggest</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>⌥</kbd><span class="key-sep">+</span><kbd>T</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>Alt</kbd><span class="key-sep">+</span><kbd>T</kbd></span></div></div>
+        <div class="shortcut-row is-custom"><span class="dot blue"></span><span class="shortcut-label">Toggle Proxy Mode</span><div class="suggested"><span class="suggested-label mac-key">suggest</span><span class="suggested-label win-key" style="display:none">suggest</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>⌥</kbd><span class="key-sep">+</span><kbd>P</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>Alt</kbd><span class="key-sep">+</span><kbd>P</kbd></span></div></div>
+        <div class="shortcut-row is-custom"><span class="dot blue"></span><span class="shortcut-label">Export Viewer Frame as Image</span><div class="suggested"><span class="suggested-label mac-key">suggest</span><span class="suggested-label win-key" style="display:none">suggest</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>⇧</kbd><span class="key-sep">+</span><kbd>S</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>⇧</kbd><span class="key-sep">+</span><kbd>S</kbd></span></div></div>
+        <div class="shortcut-row is-custom"><span class="dot blue"></span><span class="shortcut-label">Manage Render Cache</span><div class="suggested"><span class="suggested-label mac-key">suggest</span><span class="suggested-label win-key" style="display:none">suggest</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>⌥</kbd><span class="key-sep">+</span><kbd>C</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>Alt</kbd><span class="key-sep">+</span><kbd>C</kbd></span></div></div>
+        <div class="shortcut-row is-custom"><span class="dot blue"></span><span class="shortcut-label">Auto Sync Audio by Waveform</span><div class="suggested"><span class="suggested-label mac-key">suggest</span><span class="suggested-label win-key" style="display:none">suggest</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>⌥</kbd><span class="key-sep">+</span><kbd>W</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>Alt</kbd><span class="key-sep">+</span><kbd>W</kbd></span></div></div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════ PHOTOS PAGE ═══════════════════════ -->
+    <section class="section" id="photos" data-section="Photos Page">
+      <div class="section-header"><div class="section-icon green">📷</div><h2>Photos Page</h2><span class="section-tag new">★ New in Resolve 21</span><span class="section-count">14 shortcuts</span></div>
+      <div class="shortcuts-grid">
+        <div class="shortcut-row is-new"><span class="dot green"></span><span class="shortcut-label">Navigate to Next Photo</span><span class="keys mac-key"><kbd>↓</kbd></span><span class="keys win-key" style="display:none"><kbd>↓</kbd></span></div>
+        <div class="shortcut-row is-new"><span class="dot green"></span><span class="shortcut-label">Navigate to Previous Photo</span><span class="keys mac-key"><kbd>↑</kbd></span><span class="keys win-key" style="display:none"><kbd>↑</kbd></span></div>
+        <div class="shortcut-row is-new"><span class="dot green"></span><span class="shortcut-label">Tag as Select / Pick</span><span class="keys mac-key"><kbd>S</kbd></span><span class="keys win-key" style="display:none"><kbd>S</kbd></span></div>
+        <div class="shortcut-row is-new"><span class="dot green"></span><span class="shortcut-label">Tag as Reject</span><span class="keys mac-key"><kbd>X</kbd></span><span class="keys win-key" style="display:none"><kbd>X</kbd></span></div>
+        <div class="shortcut-row is-new"><span class="dot green"></span><span class="shortcut-label">Undo Tag / Clear Rating</span><span class="keys mac-key"><kbd>U</kbd></span><span class="keys win-key" style="display:none"><kbd>U</kbd></span></div>
+        <div class="shortcut-row is-new"><span class="dot green"></span><span class="shortcut-label">Import Photos</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>I</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>I</kbd></span></div>
+        <div class="shortcut-row is-new"><span class="dot green"></span><span class="shortcut-label">Add Serial Node (grading)</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>S</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>S</kbd></span></div>
+        <div class="shortcut-row is-new"><span class="dot green"></span><span class="shortcut-label">Add Parallel Node</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>P</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>P</kbd></span></div>
+        <div class="shortcut-row is-new"><span class="dot green"></span><span class="shortcut-label">Toggle Bypass Grade</span><span class="keys mac-key"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>D</kbd></span><span class="keys win-key" style="display:none"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>D</kbd></span></div>
+        <div class="shortcut-row is-new"><span class="dot green"></span><span class="shortcut-label">Grab Still</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>⌥</kbd><span class="key-sep">+</span><kbd>G</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>Alt</kbd><span class="key-sep">+</span><kbd>G</kbd></span></div>
+        <div class="shortcut-row is-new"><span class="dot green"></span><span class="shortcut-label">Apply Last Grade to Photo</span><span class="keys mac-key"><kbd>⌥</kbd><span class="key-sep">+</span><kbd>V</kbd></span><span class="keys win-key" style="display:none"><kbd>Alt</kbd><span class="key-sep">+</span><kbd>V</kbd></span></div>
+        <div class="shortcut-row is-new"><span class="dot green"></span><span class="shortcut-label">Toggle LightBox View</span><span class="keys mac-key"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>F</kbd></span><span class="keys win-key" style="display:none"><kbd>⇧</kbd><span class="key-sep">+</span><kbd>F</kbd></span></div>
+        <div class="shortcut-row is-new"><span class="dot green"></span><span class="shortcut-label">Zoom to Fit Image</span><span class="keys mac-key"><kbd>Z</kbd></span><span class="keys win-key" style="display:none"><kbd>Z</kbd></span></div>
+        <div class="shortcut-row is-new"><span class="dot green"></span><span class="shortcut-label">Select All Photos in Album</span><span class="keys mac-key"><kbd>⌘</kbd><span class="key-sep">+</span><kbd>A</kbd></span><span class="keys win-key" style="display:none"><kbd>Ctrl</kbd><span class="key-sep">+</span><kbd>A</kbd></span></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <span>DaVinci Resolve Shortcuts · <a href="#">davincishortcuts.com</a></span>
+    <span>Not affiliated with Blackmagic Design · Verified for Resolve 18–21 · Suggestions are community conventions, not official defaults</span>
+  </footer>
+
+  <!-- RIGHT AD -->
+  <aside class="ad-rail right" aria-label="Advertisement">
+    <div class="ad-slot tall"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg><div>Ad Unit</div><div class="ad-label">160 × 600</div></div>
+    <div class="ad-slot short"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg><div>Ad Unit</div><div class="ad-label">160 × 250</div></div>
+  </aside>
+
+</div>
+<script>
+  function setOS(os) {
+    document.querySelectorAll('.mac-key').forEach(el => el.style.display = os === 'mac' ? 'flex' : 'none');
+    document.querySelectorAll('.win-key').forEach(el => el.style.display = os === 'win' ? 'flex' : 'none');
+    document.getElementById('btn-mac').classList.toggle('active', os === 'mac');
+    document.getElementById('btn-win').classList.toggle('active', os === 'win');
+  }
+
+  const searchInput = document.getElementById('search');
+  const noResults = document.getElementById('no-results');
+
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.toLowerCase().trim();
+    let anyVisible = false;
+
+    document.querySelectorAll('.section').forEach(section => {
+      const rows = section.querySelectorAll('.shortcut-row');
+      let sectionVisible = false;
+      rows.forEach(row => {
+        const label = row.querySelector('.shortcut-label');
+        const text = label.textContent.toLowerCase();
+        const match = !q || text.includes(q);
+        row.style.display = match ? 'flex' : 'none';
+        if (match) {
+          sectionVisible = true;
+          anyVisible = true;
+          if (q) {
+            const re = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+            label.innerHTML = label.textContent.replace(re, '<mark>$1</mark>');
+          } else {
+            label.textContent = label.textContent;
+          }
+        } else {
+          label.textContent = label.textContent;
+        }
+      });
+      section.style.display = sectionVisible ? '' : 'none';
+    });
+
+    noResults.style.display = anyVisible ? 'none' : 'block';
+  });
+
+  document.querySelectorAll('.cat-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
